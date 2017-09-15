@@ -90,24 +90,24 @@ int install_branch_config(int flag, const char *local, const char *origin, const
 		if (shortname) {
 			if (origin)
 				printf_ln(rebasing ?
-					  _("Branch %s set up to track remote branch %s from %s by rebasing.") :
-					  _("Branch %s set up to track remote branch %s from %s."),
+					  _("Branch '%s' set up to track remote branch '%s' from '%s' by rebasing.") :
+					  _("Branch '%s' set up to track remote branch '%s' from '%s'."),
 					  local, shortname, origin);
 			else
 				printf_ln(rebasing ?
-					  _("Branch %s set up to track local branch %s by rebasing.") :
-					  _("Branch %s set up to track local branch %s."),
+					  _("Branch '%s' set up to track local branch '%s' by rebasing.") :
+					  _("Branch '%s' set up to track local branch '%s'."),
 					  local, shortname);
 		} else {
 			if (origin)
 				printf_ln(rebasing ?
-					  _("Branch %s set up to track remote ref %s by rebasing.") :
-					  _("Branch %s set up to track remote ref %s."),
+					  _("Branch '%s' set up to track remote ref '%s' by rebasing.") :
+					  _("Branch '%s' set up to track remote ref '%s'."),
 					  local, remote);
 			else
 				printf_ln(rebasing ?
-					  _("Branch %s set up to track local ref %s by rebasing.") :
-					  _("Branch %s set up to track local ref %s."),
+					  _("Branch '%s' set up to track local ref '%s' by rebasing.") :
+					  _("Branch '%s' set up to track local ref '%s'."),
 					  local, remote);
 		}
 	}
@@ -357,8 +357,9 @@ int replace_each_worktree_head_symref(const char *oldref, const char *newref,
 
 		if (worktrees[i]->is_detached)
 			continue;
-		if (worktrees[i]->head_ref &&
-		    strcmp(oldref, worktrees[i]->head_ref))
+		if (!worktrees[i]->head_ref)
+			continue;
+		if (strcmp(oldref, worktrees[i]->head_ref))
 			continue;
 
 		refs = get_worktree_ref_store(worktrees[i]);
